@@ -39,6 +39,9 @@ from typing import Any
 
 import numpy as np
 import torch
+from hqnn_forge._validation import check_int
+
+n_atoms = check_int(n_atoms, "n_atoms", minimum=1)
 
 __all__ = ["AtomRegister"]
 

@@ -256,6 +256,10 @@ import numpy as np
 import torch
 
 from hqnn_forge.kernels import _binary_labels, kernel_target_alignment
+from hqnn_forge._validation import check_int
+
+def _row_limit(max_rows, floor):
+    return check_int(max_rows, "max_rows", minimum=floor)
 
 __all__ = [
     "PairwiseDistances",
@@ -295,17 +299,6 @@ def _features(F: Any) -> torch.Tensor:
     return tensor
 
 
-def _row_limit(max_rows: Any, floor: int) -> int | None:
-    """``max_rows`` as an int ``>= floor``, or ``None``; a bool, a float or a string is refused."""
-    if max_rows is None:
-        return None
-    if (
-        isinstance(max_rows, bool)
-        or not isinstance(max_rows, numbers.Integral)
-        or max_rows < floor
-    ):
-        raise ValueError(f"max_rows must be an integer >= {floor} or None; got {max_rows!r}.")
-    return int(max_rows)
 
 
 def _classes(y: Any, n_samples: int) -> torch.Tensor:

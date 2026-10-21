@@ -134,6 +134,9 @@ _HERMITIAN_RTOL = 1e-12
 #: The epsilon is that of single precision at most: with a half-precision
 #: one (``bfloat16``: 100 ε = 0.78) the bound would accept nearly any matrix.
 _HERMITIAN_EPS = 100
+from hqnn_forge._validation import check_int
+
+n_steps = check_int(n_steps, "n_steps", minimum=1)
 
 
 def _non_negative_number(value: Any, name: str) -> float:

@@ -121,7 +121,9 @@ from torch import nn
 from hqnn_forge._encoding_contract import EncodingLayer
 from hqnn_forge._resolve import require_prepare_inputs, resolve_encoding_layer
 from hqnn_forge.noise import Position, _noisy_qnode, validate_noise
+from hqnn_forge._validation import check_int
 
+batch_size = check_int(batch_size, "batch_size", minimum=1)
 __all__ = [
     "encoded_density_matrices",
     "encoded_states",

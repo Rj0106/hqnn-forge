@@ -208,6 +208,10 @@ from torch import nn
 from hqnn_forge._resolve import resolve_encoding_layer
 from hqnn_forge.utils.rng import device_generator
 
+from hqnn_forge._validation import check_int
+
+n_trajectories = check_int(n_trajectories, "n_trajectories", minimum=1)
+
 __all__: list[str] = [
     "CHANNELS",
     "KRAUS_DEVICES",

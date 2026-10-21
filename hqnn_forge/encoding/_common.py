@@ -25,6 +25,10 @@ from pennylane.exceptions import AllocationError, DeviceError
 
 from hqnn_forge.circuits import hardware_efficient_layer, strongly_entangling_layer
 from hqnn_forge.utils.rng import as_seed
+from hqnn_forge._validation import check_int
+
+# Replaces old isinstance(shots, int) logic, now safely accepting numpy integers
+shots = check_int(shots, "shots", minimum=1, allow_none=True)
 
 logger = logging.getLogger(__name__)
 
