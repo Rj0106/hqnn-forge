@@ -1,33 +1,56 @@
+"""Argument checks shared across the library."""
+
+from __future__ import annotations
+
 import numbers
-import numpy as np
+from typing import Any, Literal, overload
 
-def check_int(value, name: str, *, minimum: int, allow_none: bool = False) -> int | None:
-    """Validate that a value is an integer (excluding booleans) and at least `minimum`.
 
-    Parameters
-    ----------
-    value : Any
-        The value to validate.
-    name : str
-        The parameter or variable name (used in error messages).
-    minimum : int
-        The inclusive lower bound for the integer value.
-    allow_none : bool, default=False
-        Whether None is an accepted value.
+@overload
+def check_int(
+    value: Any,
+    name: str,
+    *,
+    minimum: int,
+    allow_none: Literal[False] = False,
+) -> int:
+    ...
 
-    Returns
-    -------
-    int or None
-        The validated integer, or None if `allow_none` is True and `value` is None.
+
+@overload
+def check_int(
+    value: Any,
+    name: str,
+    *,
+    minimum: int,
+    allow_none: Literal[True],
+) -> int | None:
+    ...
+
+
+def check_int(
+    value: Any, name: str, *, minimum: int, allow_none: bool = False
+) -> int | None:
+    """``value`` as an ``int >= minimum`` (``None`` too if ``allow_none``).
+
+    A bool, a float, a string or anything else that is not a
+    :class:`numbers.Integral` is refused; NumPy integers are accepted
+    and converted with ``int()``.
+
+    Raises
+    ------
+    ValueError
+        If ``value`` is not such an integer.
     """
-    if allow_none and value is None:
+    if value is None and allow_none:
         return None
-        
-    if isinstance(value, bool) or not isinstance(value, (numbers.Integral, np.integer)):
-        raise TypeError(f"'{name}' must be an integer, got {type(value).__name__}")
-    
-    int_val = int(value)
-    if int_val < minimum:
-        raise ValueError(f"'{name}' must be at least {minimum}, got {int_val}")
-        
-    return int_val
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, numbers.Integral)
+        or value < minimum
+    ):
+        suffix = " or None" if allow_none else ""
+        raise ValueError(
+            f"{name} must be an integer >= {minimum}{suffix}; got {value!r}."
+        )
+    return int(value)

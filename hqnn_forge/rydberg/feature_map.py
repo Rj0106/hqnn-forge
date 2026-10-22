@@ -127,8 +127,7 @@ from hqnn_forge.rydberg.lindblad import (
 from hqnn_forge.rydberg.register import AtomRegister, _finite_number
 from hqnn_forge._validation import check_int
 
-def _positive_integer(value, name, *, or_none=False):
-    return check_int(value, name, minimum=1, allow_none=or_none)
+
 
 __all__ = ["PulseEncoding", "RydbergFeatureMap"]
 
@@ -138,7 +137,8 @@ __all__ = ["PulseEncoding", "RydbergFeatureMap"]
 #: least 1): 4096 at 4 atoms, 256 at 6, 1 at 10.
 _CHUNK_ENTRIES = 2**20
 
-
+def _positive_integer(value: Any, name: str, *, or_none: bool = False) -> int | None:
+    return check_int(value, name, minimum=1, allow_none=or_none)
 
 
 

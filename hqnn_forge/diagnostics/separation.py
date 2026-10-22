@@ -258,8 +258,7 @@ import torch
 from hqnn_forge.kernels import _binary_labels, kernel_target_alignment
 from hqnn_forge._validation import check_int
 
-def _row_limit(max_rows, floor):
-    return check_int(max_rows, "max_rows", minimum=floor)
+
 
 __all__ = [
     "PairwiseDistances",
@@ -298,6 +297,9 @@ def _features(F: Any) -> torch.Tensor:
         raise ValueError("F must be finite; got a NaN or an infinity.")
     return tensor
 
+def _row_limit(max_rows: Any, floor: int) -> int | None:
+    """``max_rows`` as an int ``>= floor``, or ``None``."""
+    return check_int(max_rows, "max_rows", minimum=floor, allow_none=True)
 
 
 

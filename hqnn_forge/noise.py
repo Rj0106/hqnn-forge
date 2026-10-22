@@ -210,7 +210,7 @@ from hqnn_forge.utils.rng import device_generator
 
 from hqnn_forge._validation import check_int
 
-n_trajectories = check_int(n_trajectories, "n_trajectories", minimum=1)
+
 
 __all__: list[str] = [
     "CHANNELS",
@@ -573,6 +573,7 @@ def validate_noise_method(method: str, n_trajectories: object) -> None:
     ``n_trajectories`` must be a positive ``int`` (not ``bool``), and 1 for
     ``"density"``, which is exact and has nothing to average.
     """
+    n_trajectories = check_int(n_trajectories, "n_trajectories", minimum=1)
     if method not in ("density", "trajectories"):
         raise ValueError(f"noise_method must be 'density' or 'trajectories'; got {method!r}.")
     if (
